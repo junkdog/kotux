@@ -6,7 +6,7 @@ interface StateObserver<in S> {
 	fun isStateChanged(state: S): Boolean
 }
 
-class SliceObserver<S>(val property: KProperty1<S, Any>) : StateObserver<S>  {
+class SliceObserver<S>(val property: KProperty1<S, Any>) : StateObserver<S> {
 
 	private var observedSlice: Any = Unit
 
