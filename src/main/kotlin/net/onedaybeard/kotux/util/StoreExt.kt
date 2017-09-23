@@ -1,25 +1,28 @@
 package net.onedaybeard.kotux.util
 
-import net.onedaybeard.kotux.*
+import net.onedaybeard.kotux.SliceObserver
+import net.onedaybeard.kotux.StateObserver
+import net.onedaybeard.kotux.Store
+import net.onedaybeard.kotux.Subscriber
 import kotlin.reflect.KProperty1
 
 
 fun <S> Store<S>.subscribe(property: KProperty1<S, Any>,
-                           subscriber: (S) -> Unit) : Subscriber<S> {
+                           subscriber: (S) -> Unit): Subscriber<S> {
 
-	val check : StateObserver<S> = SliceObserver(property)
-	return this.subscribe { state ->
-		if (check.isStateChanged(state))
-			subscriber.invoke(state)
-	}
+    val check: StateObserver<S> = SliceObserver(property)
+    return this.subscribe { state ->
+        if (check.isStateChanged(state))
+            subscriber.invoke(state)
+    }
 }
 
 fun <S> Store<S>.subscribe(check: (S) -> Boolean,
-                           subscriber: (S) -> Unit) : Subscriber<S> {
+                           subscriber: (S) -> Unit): Subscriber<S> {
 
-	return this.subscribe { state ->
-		if (check.invoke(state)) {
-			subscriber.invoke(state)
-		}
-	}
+    return this.subscribe { state ->
+        if (check.invoke(state)) {
+            subscriber.invoke(state)
+        }
+    }
 }
